@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://upvki2d2b70d"]
+
+[ext_resource type="PackedScene" uid="uid://dat6ctlb1m8qb" path="res://3D_Models/Environment/UnderwaterCove.glb" id="1_uoyfq"]
+
+[node name="UnderwaterCove" instance=ExtResource("1_uoyfq")]

@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://diaw3blp0mopv"]
+
+[ext_resource type="PackedScene" uid="uid://b4v8jmlo8lqf2" path="res://Scenes/dolphin.tscn" id="1_5iaaw"]
+[ext_resource type="Script" uid="uid://ddk17t00f2jy0" path="res://Scripts/dolphin_player.gd" id="1_xqri0"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xqri0"]
+radius = 1.0
+height = 9.1
+
+[node name="Player" type="CharacterBody3D"]
+safe_margin = 0.2
+script = ExtResource("1_xqri0")
+swim_arc_angle_blended = 30.0
+swim_arc_angle_straight = 60.0
+
+[node name="Dolphin" parent="." groups=["Player"] instance=ExtResource("1_5iaaw")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.2, 0)
+shape = SubResource("CapsuleShape3D_xqri0")

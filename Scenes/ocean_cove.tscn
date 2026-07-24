@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://dnuh5kn6wdw0k"]
+
+[node name="OceanCove" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]

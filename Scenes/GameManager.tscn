@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://ci7pflyalrr0q"]
+
+[ext_resource type="Script" uid="uid://b62onevjhmecu" path="res://Scripts/GameManager.gd" id="1_oj352"]
+[ext_resource type="PackedScene" uid="uid://bi06wds7s7tmy" path="res://Scenes/hud.tscn" id="2_e5fcp"]
+
+[node name="GameManagerRoot" type="Node"]
+script = ExtResource("1_oj352")
+
+[node name="GameTimer" type="Timer" parent="."]
+
+[node name="HUD" parent="." instance=ExtResource("2_e5fcp")]
+
+[connection signal="timeout" from="GameTimer" to="." method="_on_timer_timeout"]

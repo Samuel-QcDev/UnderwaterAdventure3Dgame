@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://crj82yek84o7a"]
+
+[ext_resource type="Script" uid="uid://3hjhgpltppn3" path="res://Scripts/collectible.gd" id="1_7xeth"]
+[ext_resource type="PackedScene" uid="uid://bq1vt4b157dvp" path="res://Scenes/gold+coin.tscn" id="2_7xeth"]
+[ext_resource type="AudioStream" uid="uid://cbp6yf2rp3hp2" path="res://Music/smb_coin.wav" id="3_hb6c1"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_sshb3"]
+radius = 1.0
+
+[node name="Collectible_coin" type="Area3D" groups=["coins"]]
+script = ExtResource("1_7xeth")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0746262, 0.102619, 0.203418)
+shape = SubResource("SphereShape3D_sshb3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+
+[node name="Gold+Coin" parent="MeshInstance3D" instance=ExtResource("2_7xeth")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.34195, 0)
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_hb6c1")
+volume_db = 12.0
+max_db = 6.0
+playback_type = 1
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

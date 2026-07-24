@@ -1,0 +1,24 @@
+[gd_scene load_steps=6 format=3 uid="uid://c1lpkurgvv80v"]
+
+[ext_resource type="Script" uid="uid://dawmlfxn1tn5u" path="res://Scripts/audio_manager.gd" id="1_4tj6f"]
+[ext_resource type="AudioStream" uid="uid://yegjdc44lfu0" path="res://Music/Super Mario Bros_Underwater.wav" id="2_hhwve"]
+[ext_resource type="AudioStream" uid="uid://btstu55mqu02i" path="res://Music/smb_mariodie.wav" id="3_hhwve"]
+[ext_resource type="AudioStream" uid="uid://domq3yhokgc84" path="res://Music/smb_stage_clear.wav" id="4_qixve"]
+[ext_resource type="AudioStream" uid="uid://d1mmiixqn00bd" path="res://Music/smb_gameover.wav" id="5_0hehx"]
+
+[node name="AudioManager" type="Node"]
+script = ExtResource("1_4tj6f")
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_hhwve")
+
+[node name="SFXPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="Die" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_hhwve")
+
+[node name="Win" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_qixve")
+
+[node name="GameOver" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_0hehx")

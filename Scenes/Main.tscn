@@ -1,0 +1,1656 @@
+[gd_scene load_steps=21 format=3 uid="uid://dk0erkgurlowo"]
+
+[ext_resource type="Script" uid="uid://ldtn45su103w" path="res://Scripts/main.gd" id="1_bmxlf"]
+[ext_resource type="PackedScene" uid="uid://bjfjotpgyjunt" path="res://Scenes/cave__mesh_instance_3d.tscn" id="1_vy5pj"]
+[ext_resource type="PackedScene" uid="uid://fey18i58ha2x" path="res://Scenes/boundaries.tscn" id="2_bmxlf"]
+[ext_resource type="PackedScene" uid="uid://byvg2kt721axj" path="res://Scenes/ocean_floor.tscn" id="3_4kpch"]
+[ext_resource type="PackedScene" uid="uid://diaw3blp0mopv" path="res://Scenes/dolphin_player.tscn" id="4_grg3l"]
+[ext_resource type="PackedScene" uid="uid://dhsh3to1rkswl" path="res://Scenes/thorny_tendril_plant.tscn" id="6_frkhe"]
+[ext_resource type="PackedScene" uid="uid://bwx37g5hmqlix" path="res://Scenes/anemonie.tscn" id="7_1p5hy"]
+[ext_resource type="PackedScene" uid="uid://crj82yek84o7a" path="res://Scenes/collectible.tscn" id="7_h1m7h"]
+[ext_resource type="PackedScene" uid="uid://dvg1gc5sbuk77" path="res://Scenes/shark_enemy.tscn" id="8_erwvk"]
+[ext_resource type="PackedScene" uid="uid://ci7pflyalrr0q" path="res://Scenes/GameManager.tscn" id="9_2w5on"]
+[ext_resource type="PackedScene" uid="uid://bk13x048g7n4m" path="res://Scenes/mossy+rocks.tscn" id="11_4kpch"]
+[ext_resource type="PackedScene" uid="uid://cg7kqowwqfc1o" path="res://3D_Models/Ocean/Rocks.glb" id="11_frkhe"]
+[ext_resource type="PackedScene" uid="uid://cf3ty2kfk3mg1" path="res://Scenes/crashed_ship.tscn" id="11_grg3l"]
+[ext_resource type="PackedScene" uid="uid://de2hn3w8b5awu" path="res://Scenes/chest.tscn" id="13_h1m7h"]
+[ext_resource type="Script" uid="uid://kht5pbp4bw1d" path="res://Scenes/CoinSpawner.gd" id="15_h1m7h"]
+[ext_resource type="Script" uid="uid://dbqs3pldmpkp3" path="res://Scripts/marine_life.gd" id="16_mlife"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_t05ga"]
+size = Vector2(1000, 1000)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t05ga"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_color = Color(0.25098, 0.501961, 1, 0.00392157)
+metallic_specular = 1.0
+roughness = 0.1
+refraction_enabled = true
+refraction_scale = 0.25
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ep6c4"]
+
+[sub_resource type="Sky" id="Sky_p5ghu"]
+sky_material = SubResource("ProceduralSkyMaterial_ep6c4")
+
+[sub_resource type="Environment" id="Environment_p5ghu"]
+background_mode = 2
+sky = SubResource("Sky_p5ghu")
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.352941, 0.615686, 0.831373, 1)
+fog_density = 0.93
+fog_depth_curve = 1.03527
+fog_depth_end = 60.0
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_bmxlf")
+
+[node name="Cave" type="Node3D" parent="."]
+
+[node name="Cave -MeshInstance3D" parent="Cave" instance=ExtResource("1_vy5pj")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 24.924, -55.9143, 158.961)
+
+[node name="SunLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 371, 0)
+light_color = Color(1, 0.976471, 0.882353, 1)
+light_energy = 2.0
+shadow_enabled = true
+shadow_bias = 0.02
+shadow_normal_bias = 1.0
+
+[node name="WaterSurface" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_t05ga")
+surface_material_override/0 = SubResource("StandardMaterial3D_t05ga")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="WaterSurface"]
+environment = SubResource("Environment_p5ghu")
+
+[node name="Boundaries" parent="." instance=ExtResource("2_bmxlf")]
+
+[node name="OceanFloor" parent="." instance=ExtResource("3_4kpch")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -77, 0)
+
+[node name="Player" parent="." groups=["Player"] instance=ExtResource("4_grg3l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, -70, 136.074)
+
+[node name="CameraPivot" type="Node3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Player/CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 13)
+current = true
+far = 3000.0
+
+[node name="Plants" type="Node3D" parent="."]
+
+[node name="anemonie" parent="Plants" instance=ExtResource("7_1p5hy")]
+transform = Transform3D(1, 0, 0, 0, 0.996889, -0.0788245, 0, 0.0788245, 0.996889, 48.3802, -76.7314, 104.963)
+
+[node name="anemonie2" parent="Plants" instance=ExtResource("7_1p5hy")]
+transform = Transform3D(0.893771, -0.0353546, -0.447128, 0, 0.996889, -0.0788245, 0.448524, 0.070451, 0.89099, 45.9529, -76.7314, 111.913)
+
+[node name="anemonie3" parent="Plants" instance=ExtResource("7_1p5hy")]
+transform = Transform3D(0.718236, -0.0548461, -0.693635, 1.22051e-11, 0.996889, -0.0788245, 0.6958, 0.0566146, 0.716001, 43.437, -76.7314, 110.751)
+
+[node name="anemonie4" parent="Plants" instance=ExtResource("7_1p5hy")]
+transform = Transform3D(0.635768, -0.060843, -0.769478, 1.22051e-11, 0.996889, -0.0788245, 0.77188, 0.0501141, 0.63379, 40.8751, -76.7314, 109.3)
+
+[node name="ThornyTendril_Plant" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 60, -73.3901, 162.353)
+
+[node name="ThornyTendril_Plant2" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 43.4086, -77.1294, -54.9485)
+
+[node name="ThornyTendril_Plant3" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 48.846, -77.1294, -60.839)
+
+[node name="ThornyTendril_Plant4" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 53.8303, -77.1294, -66.7296)
+
+[node name="ThornyTendril_Plant5" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 59.3318, -77.1294, -72.5234)
+
+[node name="ThornyTendril_Plant6" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 63.1641, -77.1294, -54.9485)
+
+[node name="ThornyTendril_Plant7" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 68.6015, -77.1294, -60.839)
+
+[node name="ThornyTendril_Plant8" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 73.5859, -77.1294, -66.7296)
+
+[node name="ThornyTendril_Plant9" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 79.0874, -77.1294, -72.5234)
+
+[node name="ThornyTendril_Plant10" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 22.1263, -77.1294, -29.6223)
+
+[node name="ThornyTendril_Plant11" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 27.5638, -77.1294, -35.5129)
+
+[node name="ThornyTendril_Plant12" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 32.5481, -77.1294, -41.4035)
+
+[node name="ThornyTendril_Plant13" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 38.0496, -77.1294, -47.1973)
+
+[node name="ThornyTendril_Plant14" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(4.00333, 0, 9.1637, 0, 10, 0, -9.1637, 0, 4.00333, 93.4804, -77.0399, -46.6937)
+
+[node name="ThornyTendril_Plant24" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, -445.569, -77.1294, 274.658)
+
+[node name="ThornyTendril_Plant25" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, -440.132, -77.1294, 268.767)
+
+[node name="ThornyTendril_Plant26" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, -435.147, -77.1294, 262.877)
+
+[node name="ThornyTendril_Plant27" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, -429.646, -77.1294, 257.083)
+
+[node name="ThornyTendril_Plant29" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, -426.317, -77.1294, 274.658)
+
+[node name="ThornyTendril_Plant30" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, -420.88, -77.1294, 268.767)
+
+[node name="ThornyTendril_Plant31" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, -415.895, -77.1294, 262.877)
+
+[node name="ThornyTendril_Plant32" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, -410.394, -77.1294, 257.083)
+
+[node name="ThornyTendril_Plant33" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(9.96587, 0, -0.825473, 0, 10, 0, 0.825473, 0, 9.96587, -422.706, -77.1294, 247.367)
+
+[node name="ThornyTendril_Plant41" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(9.96587, 0, -0.825473, 0, 10, 0, 0.825473, 0, 9.96587, -422.706, -77.1294, 156.079)
+
+[node name="ThornyTendril_Plant42" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(9.96587, 0, -0.825473, 0, 10, 0, 0.825473, 0, 9.96587, -422.706, -77.1294, 176.906)
+
+[node name="ThornyTendril_Plant43" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(9.96587, 0, -0.825473, 0, 10, 0, 0.825473, 0, 9.96587, -451.635, -77.1294, 176.906)
+
+[node name="ThornyTendril_Plant44" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(9.96587, 0, -0.825473, 0, 10, 0, 0.825473, 0, 9.96587, -451.635, -77.1294, 191.057)
+
+[node name="ThornyTendril_Plant45" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(9.96587, 0, -0.825473, 0, 10, 0, 0.825473, 0, 9.96587, -451.635, -77.1294, 209.634)
+
+[node name="ThornyTendril_Plant46" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(9.96587, 0, -0.825473, 0, 10, 0, 0.825473, 0, 9.96587, -425.532, -77.1294, 209.634)
+
+[node name="ThornyTendril_Plant47" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(9.96587, 0, -0.825473, 0, 10, 0, 0.825473, 0, 9.96587, -425.532, -77.1294, 224.932)
+
+[node name="ThornyTendril_Plant48" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(9.96587, 0, -0.825473, 0, 10, 0, 0.825473, 0, 9.96587, -425.532, -77.1294, 298.585)
+
+[node name="ThornyTendril_Plant49" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(9.96587, 0, -0.825473, 0, 10, 0, 0.825473, 0, 9.96587, -475.131, -77.1294, 298.585)
+
+[node name="ThornyTendril_Plant50" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(9.96587, 0, -0.825473, 0, 10, 0, 0.825473, 0, 9.96587, -475.131, -77.1294, 328.112)
+
+[node name="ThornyTendril_Plant51" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(9.96587, 0, -0.825473, 0, 10, 0, 0.825473, 0, 9.96587, -452.157, -77.1294, 328.112)
+
+[node name="ThornyTendril_Plant52" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(9.96587, 0, -0.825473, 0, 10, 0, 0.825473, 0, 9.96587, -392.373, -77.1294, 328.112)
+
+[node name="ThornyTendril_Plant53" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(9.96587, 0, -0.825473, 0, 10, 0, 0.825473, 0, 9.96587, -356.756, -77.1294, 328.112)
+
+[node name="ThornyTendril_Plant54" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(9.96587, 0, -0.825473, 0, 10, 0, 0.825473, 0, 9.96587, -356.756, -77.1294, 363.311)
+
+[node name="ThornyTendril_Plant55" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(9.96587, 0, -0.825473, 0, 10, 0, 0.825473, 0, 9.96587, -356.756, -77.1294, 418.342)
+
+[node name="ThornyTendril_Plant56" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(9.96587, 0, -0.825473, 0, 10, 0, 0.825473, 0, 9.96587, -430.06, -77.1294, 418.342)
+
+[node name="ThornyTendril_Plant57" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(9.96587, 0, -0.825473, 0, 10, 0, 0.825473, 0, 9.96587, -392.777, -77.1294, 418.342)
+
+[node name="ThornyTendril_Plant58" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(9.96587, 0, -0.825473, 0, 10, 0, 0.825473, 0, 9.96587, -392.777, -77.1294, 418.342)
+
+[node name="ThornyTendril_Plant34" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(9.96587, 0, -0.825473, 0, 10, 0, 0.825473, 0, 9.96587, -416.8, -77.1294, 241.945)
+
+[node name="ThornyTendril_Plant35" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(9.96587, 0, -0.825473, 0, 10, 0, 0.825473, 0, 9.96587, -411.347, -77.1294, 236.486)
+
+[node name="ThornyTendril_Plant36" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(9.96587, 0, -0.825473, 0, 10, 0, 0.825473, 0, 9.96587, -405.386, -77.1294, 231.166)
+
+[node name="ThornyTendril_Plant37" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(9.96587, 0, -0.825473, 0, 10, 0, 0.825473, 0, 9.96587, -403.519, -77.1294, 248.956)
+
+[node name="ThornyTendril_Plant38" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(9.96587, 0, -0.825473, 0, 10, 0, 0.825473, 0, 9.96587, -397.614, -77.1294, 243.534)
+
+[node name="ThornyTendril_Plant39" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(9.96587, 0, -0.825473, 0, 10, 0, 0.825473, 0, 9.96587, -392.16, -77.1294, 238.075)
+
+[node name="ThornyTendril_Plant40" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(9.96587, 0, -0.825473, 0, 10, 0, 0.825473, 0, 9.96587, -386.199, -77.1294, 232.755)
+
+[node name="ThornyTendril_Plant28" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(4.00333, 0, 9.1637, 0, 10, 0, -9.1637, 0, 4.00333, -374.215, -77.0399, 257.586)
+
+[node name="ThornyTendril_Plant15" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(4.00333, 0, 9.1637, 0, 10, 0, -9.1637, 0, 4.00333, 90.2593, -77.0399, -54.0346)
+
+[node name="ThornyTendril_Plant16" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(4.00333, 0, 9.1637, 0, 10, 0, -9.1637, 0, 4.00333, 86.8567, -77.0399, -60.9603)
+
+[node name="ThornyTendril_Plant17" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(4.00333, 0, 9.1637, 0, 10, 0, -9.1637, 0, 4.00333, 83.7498, -77.0399, -68.3211)
+
+[node name="ThornyTendril_Plant18" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 43.4086, -77.1294, -295.474)
+
+[node name="ThornyTendril_Plant19" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, -77.6612, -77.1294, -295.474)
+
+[node name="ThornyTendril_Plant20" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, -191.188, -77.1294, -231.966)
+
+[node name="ThornyTendril_Plant21" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, -229.375, -77.1294, -231.966)
+
+[node name="ThornyTendril_Plant22" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, -256.225, -77.1294, -231.966)
+
+[node name="ThornyTendril_Plant23" parent="Plants" instance=ExtResource("6_frkhe")]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, -278.711, -77.1294, -231.966)
+
+[node name="Collectibles" type="Node3D" parent="." groups=["coins"]]
+
+[node name="Collectible_coin 1" parent="Collectibles" groups=["coins"] instance=ExtResource("7_h1m7h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59, -70, 147)
+
+[node name="Collectible_coin 2" parent="Collectibles" groups=["coins"] instance=ExtResource("7_h1m7h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 58.519, -69, 152)
+
+[node name="Collectible_coin 3" parent="Collectibles" groups=["coins"] instance=ExtResource("7_h1m7h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59.4942, -68, 157)
+
+[node name="Collectible_coin 150" parent="Collectibles" groups=["coins"] instance=ExtResource("7_h1m7h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 54.9695, -74.3063, 6.44436)
+
+[node name="Collectible_coin 151" parent="Collectibles" groups=["coins"] instance=ExtResource("7_h1m7h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53.4624, -74.3063, 6.44436)
+
+[node name="Collectible_coin 152" parent="Collectibles" groups=["coins"] instance=ExtResource("7_h1m7h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52.3171, -74.3063, 6.44436)
+
+[node name="Collectible_coin 153" parent="Collectibles" groups=["coins"] instance=ExtResource("7_h1m7h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.226, -74.3063, 6.44436)
+
+[node name="Enemies" type="Node3D" parent="." groups=["sharks"]]
+
+[node name="SharkEnemy" parent="Enemies" groups=["sharks"] instance=ExtResource("8_erwvk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -409.091, -67, -343.494)
+speed = 20.0
+chase_radius = 100.0
+patrol_radius = 1000.0
+target_path = NodePath("../../Player")
+
+[node name="SharkEnemy2" parent="Enemies" groups=["sharks"] instance=ExtResource("8_erwvk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, -67, 0)
+speed = 25.0
+chase_radius = 50.0
+patrol_radius = 1000.0
+target_path = NodePath("../../Player")
+
+[node name="SharkEnemy3" parent="Enemies" groups=["sharks"] instance=ExtResource("8_erwvk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 358.038, -67, -54.1623)
+speed = 30.0
+chase_radius = 100.0
+patrol_radius = 1000.0
+target_path = NodePath("../../Player")
+
+[node name="GameManagerRoot" parent="." instance=ExtResource("9_2w5on")]
+
+[node name="Rocks" type="Node3D" parent="."]
+
+[node name="mossy+rocks" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, -75.6384, 136)
+
+[node name="mossy+rocks2" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, -74.6202, 141.527)
+
+[node name="mossy+rocks3" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, -76.4994, 124.004)
+
+[node name="mossy+rocks4" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, -76.6336, 105.854)
+
+[node name="mossy+rocks5" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.969825, 0, 0.243801, 0, 1, 0, -0.243801, 0, 0.969825, 60, -76.6336, 96.6298)
+
+[node name="mossy+rocks6" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.818049, 0, 0.575148, 0, 1, 0, -0.575148, 0, 0.818049, 60, -76.6336, 87.2086)
+
+[node name="mossy+rocks7" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.818049, 0, 0.575148, 0.123858, 0.976537, -0.176166, -0.561653, 0.215349, 0.798856, 60, -76.6336, 76.854)
+
+[node name="mossy+rocks8" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.71786, 0.0343894, 0.695338, 0.123858, 0.976537, -0.176166, -0.685081, 0.212585, 0.696758, 60, -76.6336, 64.2853)
+
+[node name="mossy+rocks9" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.71786, 0.0343894, 0.695338, 0.123858, 0.976537, -0.176166, -0.685081, 0.212585, 0.696758, 69.7633, -76.6336, 64.2853)
+
+[node name="mossy+rocks10" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.71786, 0.0343894, 0.695338, 0.123858, 0.976537, -0.176166, -0.685081, 0.212585, 0.696758, 79.1005, -76.6336, 64.2853)
+
+[node name="mossy+rocks11" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.553068, 0.0794639, 0.829338, 0.123858, 0.976537, -0.176166, -0.823878, 0.200152, 0.53025, 85.4032, -76.6336, 48.5368)
+
+[node name="mossy+rocks12" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.553068, 0.0794639, 0.829338, 0.123858, 0.976537, -0.176166, -0.823878, 0.200152, 0.53025, 91.9827, -76.6336, 30.3187)
+
+[node name="mossy+rocks13" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.553068, 0.0794639, 0.829338, 0.123858, 0.976537, -0.176166, -0.823878, 0.200152, 0.53025, 101.939, -76.6336, 30.3187)
+
+[node name="mossy+rocks14" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.696184, 0.0409909, 0.716692, 0.123858, 0.976537, -0.176166, -0.707097, 0.211412, 0.674773, 101.939, -76.6336, 15.7809)
+
+[node name="mossy+rocks15" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 101.939, -76.6336, 2.50365)
+
+[node name="mossy+rocks16" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 101.939, -76.6336, -13.0829)
+
+[node name="mossy+rocks17" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 101.939, -76.6336, -31.3924)
+
+[node name="mossy+rocks18" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 101.939, -76.6336, -63.78)
+
+[node name="mossy+rocks19" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 101.939, -76.6336, -107.849)
+
+[node name="mossy+rocks20" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 101.939, -76.6336, -88.5749)
+
+[node name="mossy+rocks21" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 72.6669, -76.6336, -88.5749)
+
+[node name="mossy+rocks22" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 49.2302, -76.6336, -88.5749)
+
+[node name="mossy+rocks23" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 26.4137, -76.6336, -88.5749)
+
+[node name="mossy+rocks24" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 26.4137, -76.6336, -88.5749)
+
+[node name="mossy+rocks25" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 26.4137, -76.6336, -123.962)
+
+[node name="mossy+rocks26" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 26.4137, -76.6336, -139.689)
+
+[node name="mossy+rocks27" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 26.4137, -76.6336, -167.212)
+
+[node name="mossy+rocks28" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 26.4137, -76.6336, -190.301)
+
+[node name="mossy+rocks29" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 45.8948, -76.6336, -190.301)
+
+[node name="mossy+rocks30" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 67.5404, -76.6336, -170.098)
+
+[node name="mossy+rocks31" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 47.3378, -76.6336, -170.098)
+
+[node name="mossy+rocks32" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 47.3378, -76.6336, -150.617)
+
+[node name="mossy+rocks33" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 47.3378, -76.6336, -126.085)
+
+[node name="mossy+rocks34" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 64.6543, -76.6336, -126.085)
+
+[node name="mossy+rocks35" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 64.6543, -76.6336, -105.161)
+
+[node name="mossy+rocks36" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 80.033, -76.6336, -105.161)
+
+[node name="mossy+rocks37" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 105.298, -76.6336, -105.161)
+
+[node name="mossy+rocks38" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 147.04, -76.6336, -139.214)
+
+[node name="mossy+rocks39" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 147.04, -76.6336, -162.282)
+
+[node name="mossy+rocks40" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 147.04, -76.6336, -191.941)
+
+[node name="mossy+rocks41" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 121.775, -76.6336, -191.941)
+
+[node name="mossy+rocks42" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 100.904, -76.6336, -216.107)
+
+[node name="mossy+rocks43" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 80.033, -76.6336, -247.963)
+
+[node name="mossy+rocks44" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 80.033, -76.6336, -294.491)
+
+[node name="mossy+rocks45" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 66.4594, -76.6336, -323.335)
+
+[node name="mossy+rocks46" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 98.6971, -76.6336, -355.573)
+
+[node name="mossy+rocks47" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 78.3365, -76.6336, -394.597)
+
+[node name="mossy+rocks48" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 78.3365, -76.6336, -394.597)
+
+[node name="mossy+rocks49" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 92.7452, -76.6336, -191.941)
+
+[node name="mossy+rocks50" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 67.4803, -76.6336, -191.941)
+
+[node name="mossy+rocks51" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 46.6093, -76.6336, -216.107)
+
+[node name="mossy+rocks52" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 25.7382, -76.6336, -247.963)
+
+[node name="mossy+rocks53" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 25.7382, -76.6336, -294.491)
+
+[node name="mossy+rocks54" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 12.1646, -76.6336, -323.335)
+
+[node name="mossy+rocks55" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 44.4023, -76.6336, -355.573)
+
+[node name="mossy+rocks56" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 24.0417, -76.6336, -394.597)
+
+[node name="mossy+rocks57" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 24.0417, -76.6336, -394.597)
+
+[node name="mossy+rocks58" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -5.66415, -76.6336, -191.941)
+
+[node name="mossy+rocks59" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -30.9291, -76.6336, -191.941)
+
+[node name="mossy+rocks60" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -51.8001, -76.6336, -216.107)
+
+[node name="mossy+rocks61" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -72.6712, -76.6336, -247.963)
+
+[node name="mossy+rocks62" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -72.6712, -76.6336, -294.491)
+
+[node name="mossy+rocks63" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -86.2448, -76.6336, -323.335)
+
+[node name="mossy+rocks64" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -54.0071, -76.6336, -355.573)
+
+[node name="mossy+rocks187" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 213.166, -76.6336, -37.8254)
+
+[node name="mossy+rocks188" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 245.404, -76.6336, -70.063)
+
+[node name="mossy+rocks189" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 225.043, -76.6336, -109.087)
+
+[node name="mossy+rocks190" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 225.043, -76.6336, -109.087)
+
+[node name="mossy+rocks191" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 195.338, -76.6336, 93.569)
+
+[node name="mossy+rocks192" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 170.073, -76.6336, 93.569)
+
+[node name="mossy+rocks193" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 149.202, -76.6336, 69.4026)
+
+[node name="mossy+rocks194" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 128.331, -76.6336, 37.5468)
+
+[node name="mossy+rocks195" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 128.331, -76.6336, -8.98119)
+
+[node name="mossy+rocks196" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 114.757, -76.6336, -37.8254)
+
+[node name="mossy+rocks197" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 146.995, -76.6336, -70.063)
+
+[node name="mossy+rocks198" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 226.445, -76.6336, -55.2048)
+
+[node name="mossy+rocks199" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 258.683, -76.6336, -87.4424)
+
+[node name="mossy+rocks200" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 238.322, -76.6336, -126.467)
+
+[node name="mossy+rocks201" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 238.322, -76.6336, -126.467)
+
+[node name="mossy+rocks202" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 208.616, -76.6336, 76.1896)
+
+[node name="mossy+rocks203" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 183.351, -76.6336, 76.1896)
+
+[node name="mossy+rocks204" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 162.48, -76.6336, 52.0232)
+
+[node name="mossy+rocks205" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 141.609, -76.6336, 20.1674)
+
+[node name="mossy+rocks206" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 141.609, -76.6336, -26.3606)
+
+[node name="mossy+rocks207" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 128.035, -76.6336, -55.2048)
+
+[node name="mossy+rocks208" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 160.273, -76.6336, -87.4424)
+
+[node name="mossy+rocks209" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 257.215, -76.6336, -55.2048)
+
+[node name="mossy+rocks210" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 289.453, -76.6336, -87.4424)
+
+[node name="mossy+rocks211" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 269.092, -76.6336, -126.467)
+
+[node name="mossy+rocks212" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 269.092, -76.6336, -126.467)
+
+[node name="mossy+rocks213" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 239.386, -76.6336, 76.1896)
+
+[node name="mossy+rocks214" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 214.121, -76.6336, 76.1896)
+
+[node name="mossy+rocks215" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 193.25, -76.6336, 52.0232)
+
+[node name="mossy+rocks216" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 172.379, -76.6336, 20.1674)
+
+[node name="mossy+rocks217" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 172.379, -76.6336, -26.3606)
+
+[node name="mossy+rocks218" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 158.806, -76.6336, -55.2048)
+
+[node name="mossy+rocks219" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 191.043, -76.6336, -87.4424)
+
+[node name="mossy+rocks220" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 284.902, -76.6336, -55.2048)
+
+[node name="mossy+rocks221" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 317.14, -76.6336, -87.4424)
+
+[node name="mossy+rocks222" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 296.779, -76.6336, -126.467)
+
+[node name="mossy+rocks223" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 296.779, -76.6336, -126.467)
+
+[node name="mossy+rocks224" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 267.073, -76.6336, 76.1896)
+
+[node name="mossy+rocks225" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 241.808, -76.6336, 76.1896)
+
+[node name="mossy+rocks226" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 220.937, -76.6336, 52.0232)
+
+[node name="mossy+rocks227" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 200.066, -76.6336, 20.1674)
+
+[node name="mossy+rocks228" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 200.066, -76.6336, -26.3606)
+
+[node name="mossy+rocks229" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 186.493, -76.6336, -55.2048)
+
+[node name="mossy+rocks230" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 218.73, -76.6336, -87.4424)
+
+[node name="mossy+rocks231" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 313.24, -76.6336, -55.2048)
+
+[node name="mossy+rocks232" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 345.478, -76.6336, -87.4424)
+
+[node name="mossy+rocks233" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 325.117, -76.6336, -126.467)
+
+[node name="mossy+rocks234" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 325.117, -76.6336, -126.467)
+
+[node name="mossy+rocks235" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 295.411, -76.6336, 76.1896)
+
+[node name="mossy+rocks236" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 270.146, -76.6336, 76.1896)
+
+[node name="mossy+rocks237" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 249.275, -76.6336, 52.0232)
+
+[node name="mossy+rocks238" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 228.404, -76.6336, 20.1674)
+
+[node name="mossy+rocks239" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 228.404, -76.6336, -26.3606)
+
+[node name="mossy+rocks240" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 214.831, -76.6336, -55.2048)
+
+[node name="mossy+rocks241" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 247.068, -76.6336, -87.4424)
+
+[node name="mossy+rocks242" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 344.578, -76.6336, -55.2048)
+
+[node name="mossy+rocks243" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 376.816, -76.6336, -87.4424)
+
+[node name="mossy+rocks244" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 356.455, -76.6336, -126.467)
+
+[node name="mossy+rocks245" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 356.455, -76.6336, -126.467)
+
+[node name="mossy+rocks246" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 326.749, -76.6336, 76.1896)
+
+[node name="mossy+rocks247" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 301.484, -76.6336, 76.1896)
+
+[node name="mossy+rocks248" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 280.613, -76.6336, 52.0232)
+
+[node name="mossy+rocks249" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 259.742, -76.6336, 20.1674)
+
+[node name="mossy+rocks250" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 259.742, -76.6336, -26.3606)
+
+[node name="mossy+rocks251" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 246.169, -76.6336, -55.2048)
+
+[node name="mossy+rocks252" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 278.406, -76.6336, -87.4424)
+
+[node name="mossy+rocks253" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 369.235, -76.6336, -19.6646)
+
+[node name="mossy+rocks254" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 401.472, -76.6336, -51.9022)
+
+[node name="mossy+rocks255" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 381.112, -76.6336, -90.9267)
+
+[node name="mossy+rocks256" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 381.112, -76.6336, -90.9267)
+
+[node name="mossy+rocks257" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 351.406, -76.6336, 111.73)
+
+[node name="mossy+rocks258" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 326.141, -76.6336, 111.73)
+
+[node name="mossy+rocks259" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 305.27, -76.6336, 87.5633)
+
+[node name="mossy+rocks260" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 284.399, -76.6336, 55.7075)
+
+[node name="mossy+rocks261" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 284.399, -76.6336, 9.17956)
+
+[node name="mossy+rocks262" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 270.825, -76.6336, -19.6646)
+
+[node name="mossy+rocks263" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 303.063, -76.6336, -51.9022)
+
+[node name="mossy+rocks264" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 424.137, -76.6336, -19.6646)
+
+[node name="mossy+rocks265" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 456.375, -76.6336, -51.9022)
+
+[node name="mossy+rocks266" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 436.014, -76.6336, -90.9267)
+
+[node name="mossy+rocks267" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 436.014, -76.6336, -90.9267)
+
+[node name="mossy+rocks268" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 406.308, -76.6336, 111.73)
+
+[node name="mossy+rocks269" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 381.043, -76.6336, 111.73)
+
+[node name="mossy+rocks270" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 360.172, -76.6336, 87.5633)
+
+[node name="mossy+rocks271" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 339.301, -76.6336, 55.7075)
+
+[node name="mossy+rocks272" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 339.301, -76.6336, 9.17956)
+
+[node name="mossy+rocks273" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 325.728, -76.6336, -19.6646)
+
+[node name="mossy+rocks274" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 357.965, -76.6336, -51.9022)
+
+[node name="mossy+rocks275" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 424.137, -76.6336, -0.234901)
+
+[node name="mossy+rocks276" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 456.375, -76.6336, -32.4725)
+
+[node name="mossy+rocks277" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 436.014, -76.6336, -71.497)
+
+[node name="mossy+rocks278" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 436.014, -76.6336, -71.497)
+
+[node name="mossy+rocks279" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 406.308, -76.6336, 131.159)
+
+[node name="mossy+rocks280" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 381.043, -76.6336, 131.159)
+
+[node name="mossy+rocks281" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 360.172, -76.6336, 106.993)
+
+[node name="mossy+rocks282" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 339.301, -76.6336, 75.1372)
+
+[node name="mossy+rocks283" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 339.301, -76.6336, 28.6093)
+
+[node name="mossy+rocks284" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 325.728, -76.6336, -0.234901)
+
+[node name="mossy+rocks285" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 357.965, -76.6336, -32.4725)
+
+[node name="mossy+rocks286" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 445.855, -76.6336, -0.234901)
+
+[node name="mossy+rocks287" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 478.092, -76.6336, -32.4725)
+
+[node name="mossy+rocks288" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 457.732, -76.6336, -71.497)
+
+[node name="mossy+rocks289" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 457.732, -76.6336, -71.497)
+
+[node name="mossy+rocks290" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 428.026, -76.6336, 131.159)
+
+[node name="mossy+rocks291" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 402.761, -76.6336, 131.159)
+
+[node name="mossy+rocks292" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 381.89, -76.6336, 106.993)
+
+[node name="mossy+rocks293" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 361.019, -76.6336, 75.1372)
+
+[node name="mossy+rocks294" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 361.019, -76.6336, 28.6093)
+
+[node name="mossy+rocks295" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 347.445, -76.6336, -0.234901)
+
+[node name="mossy+rocks296" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 379.683, -76.6336, -32.4725)
+
+[node name="mossy+rocks297" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 21.0616, -76.6336, -0.234901)
+
+[node name="mossy+rocks298" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 53.2993, -76.6336, -32.4725)
+
+[node name="mossy+rocks299" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 32.9387, -76.6336, -71.497)
+
+[node name="mossy+rocks300" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 32.9387, -76.6336, -71.497)
+
+[node name="mossy+rocks301" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, 3.23285, -76.6336, 131.159)
+
+[node name="mossy+rocks302" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -22.0321, -76.6336, 131.159)
+
+[node name="mossy+rocks303" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -42.9031, -76.6336, 106.993)
+
+[node name="mossy+rocks304" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -63.7742, -76.6336, 75.1372)
+
+[node name="mossy+rocks305" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -63.7742, -76.6336, 28.6093)
+
+[node name="mossy+rocks306" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -77.3478, -76.6336, -0.234901)
+
+[node name="mossy+rocks307" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -45.1101, -76.6336, -32.4725)
+
+[node name="mossy+rocks65" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -74.3677, -76.6336, -394.597)
+
+[node name="mossy+rocks66" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -74.3677, -76.6336, -394.597)
+
+[node name="mossy+rocks67" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -108.488, -76.6336, -105.161)
+
+[node name="mossy+rocks68" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -66.7461, -76.6336, -139.214)
+
+[node name="mossy+rocks69" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -66.7461, -76.6336, -162.282)
+
+[node name="mossy+rocks70" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -66.7461, -76.6336, -191.941)
+
+[node name="mossy+rocks71" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -92.0111, -76.6336, -191.941)
+
+[node name="mossy+rocks72" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -112.882, -76.6336, -216.107)
+
+[node name="mossy+rocks73" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -133.753, -76.6336, -247.963)
+
+[node name="mossy+rocks74" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -133.753, -76.6336, -294.491)
+
+[node name="mossy+rocks75" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -147.327, -76.6336, -323.335)
+
+[node name="mossy+rocks76" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -115.089, -76.6336, -355.573)
+
+[node name="mossy+rocks77" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -135.45, -76.6336, -394.597)
+
+[node name="mossy+rocks78" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -135.45, -76.6336, -394.597)
+
+[node name="mossy+rocks79" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -121.041, -76.6336, -191.941)
+
+[node name="mossy+rocks80" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -146.306, -76.6336, -191.941)
+
+[node name="mossy+rocks81" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827792, -0.00685503, 0.560994, 0.00962425, 0.999951, -0.00198254, -0.560953, 0.00704031, 0.827818, -167.177, -76.6336, -216.107)
+
+[node name="mossy+rocks82" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.837806, 0.23991, 0.490433, -0.0713311, 0.93868, -0.337329, -0.541288, 0.247633, 0.803545, -188.158, -78.2267, -247.963)
+
+[node name="mossy+rocks83" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.840837, 0.159471, 0.517264, -5.05596e-05, 0.955639, -0.294539, -0.541288, 0.247633, 0.803545, -188.048, -78.2911, -294.491)
+
+[node name="mossy+rocks84" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -201.622, -76.6336, -323.335)
+
+[node name="mossy+rocks85" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -169.384, -76.6336, -355.573)
+
+[node name="mossy+rocks86" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -189.744, -76.6336, -394.597)
+
+[node name="mossy+rocks87" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -189.744, -76.6336, -394.597)
+
+[node name="mossy+rocks88" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -219.45, -76.6336, -191.941)
+
+[node name="mossy+rocks89" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.00450881, 0.999904, 0.0130621, -0.561088, -0.0082826, 0.827715, -244.715, -76.6336, -191.941)
+
+[node name="mossy+rocks90" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, -0.0115315, 0.999259, 0.0367166, -0.560988, -0.0368611, 0.827003, -265.586, -76.6336, -216.107)
+
+[node name="mossy+rocks91" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -286.457, -76.6336, -247.963)
+
+[node name="mossy+rocks92" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -286.457, -76.6336, -294.491)
+
+[node name="mossy+rocks93" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -300.031, -76.6336, -323.335)
+
+[node name="mossy+rocks94" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -267.793, -76.6336, -355.573)
+
+[node name="mossy+rocks95" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -288.154, -76.6336, -394.597)
+
+[node name="mossy+rocks96" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -288.154, -76.6336, -394.597)
+
+[node name="mossy+rocks97" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, -0.00722313, 0.999513, 0.0303647, -0.56106, -0.0291863, 0.827261, -286.643, -76.7774, -72.9235)
+
+[node name="mossy+rocks98" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -244.901, -76.6336, -106.976)
+
+[node name="mossy+rocks99" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -244.901, -76.6336, -130.044)
+
+[node name="mossy+rocks100" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, -0.0204591, 0.998546, 0.0498752, -0.560733, -0.0527613, 0.826314, -244.901, -76.6336, -159.703)
+
+[node name="mossy+rocks101" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, -0.00208193, 0.999738, 0.0227833, -0.561103, -0.0200267, 0.827504, -270.166, -76.6336, -159.703)
+
+[node name="mossy+rocks102" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, -0.0182962, 0.998742, 0.0466876, -0.560808, -0.0489094, 0.8265, -291.037, -76.6336, -183.87)
+
+[node name="mossy+rocks103" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, -0.012354, 0.999204, 0.037929, -0.56097, -0.038326, 0.826948, -311.908, -76.6336, -215.725)
+
+[node name="mossy+rocks104" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -311.908, -76.6336, -262.253)
+
+[node name="mossy+rocks105" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.0193123, 0.999775, -0.0087828, -0.560774, 0.0181041, 0.827771, -325.482, -77.2233, -291.098)
+
+[node name="mossy+rocks106" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -293.244, -76.6336, -323.335)
+
+[node name="mossy+rocks107" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -313.605, -76.6336, -362.36)
+
+[node name="mossy+rocks108" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -313.605, -76.6336, -362.36)
+
+[node name="mossy+rocks109" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, -0.0126868, 0.999181, 0.0384198, -0.560963, -0.038919, 0.826926, -299.196, -76.6336, -159.703)
+
+[node name="mossy+rocks110" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, -0.0217901, 0.998418, 0.0518364, -0.560683, -0.0551314, 0.826193, -324.461, -76.6336, -159.703)
+
+[node name="mossy+rocks111" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.0180693, 0.999812, -0.00694799, -0.560815, 0.015888, 0.827788, -345.332, -76.6336, -183.87)
+
+[node name="mossy+rocks112" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -366.203, -76.6336, -215.725)
+
+[node name="mossy+rocks113" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -366.203, -76.6336, -262.253)
+
+[node name="mossy+rocks114" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, -0.0100138, 0.999355, 0.0344792, -0.561017, -0.0341577, 0.827099, -379.777, -76.6336, -291.098)
+
+[node name="mossy+rocks115" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -347.539, -76.6336, -323.335)
+
+[node name="mossy+rocks116" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -367.899, -76.6336, -362.36)
+
+[node name="mossy+rocks117" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -367.899, -76.6336, -362.36)
+
+[node name="mossy+rocks118" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.837133, 0.248321, 0.487387, -0.0788441, 0.93649, -0.341715, -0.541288, 0.247633, 0.803545, -397.068, -79.1093, -159.703)
+
+[node name="mossy+rocks119" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, -0.0226805, 0.998329, 0.0531485, -0.560648, -0.056717, 0.82611, -422.87, -76.4896, -159.703)
+
+[node name="mossy+rocks120" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, -0.00963198, 0.999378, 0.0339162, -0.561024, -0.0334774, 0.827123, -443.741, -76.6336, -183.87)
+
+[node name="mossy+rocks121" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, -0.011228, 0.999279, 0.0362692, -0.560994, -0.0363204, 0.827023, -464.612, -76.6336, -215.725)
+
+[node name="mossy+rocks122" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.0276291, 0.999396, -0.0210616, -0.560426, 0.0329335, 0.82755, -465.107, -76.9886, -262.253)
+
+[node name="mossy+rocks123" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -478.186, -76.6336, -291.098)
+
+[node name="mossy+rocks124" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -445.948, -76.6336, -323.335)
+
+[node name="mossy+rocks125" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -466.309, -76.6336, -362.36)
+
+[node name="mossy+rocks126" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -466.309, -76.6336, -362.36)
+
+[node name="mossy+rocks127" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -286.643, -76.6336, 145.953)
+
+[node name="mossy+rocks128" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.0960596, 0.987839, -0.122258, -0.552823, 0.155087, 0.81874, -244.901, -76.6336, 111.9)
+
+[node name="mossy+rocks129" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.812943, 0.398233, 0.424893, -0.0470269, 0.772137, -0.633713, -0.580441, 0.495191, 0.646431, -244.901, -81.3466, 88.832)
+
+[node name="mossy+rocks130" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.0160724, 0.999863, -0.00400063, -0.560876, 0.0123281, 0.827808, -244.901, -76.6336, 52.301)
+
+[node name="mossy+rocks131" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, -0.00695875, 0.999526, 0.0299748, -0.561063, -0.0287153, 0.827275, -270.166, -76.4812, 59.1732)
+
+[node name="mossy+rocks132" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.00373517, 0.999892, 0.0142033, -0.561094, -0.00966124, 0.827696, -291.037, -76.6336, 35.0067)
+
+[node name="mossy+rocks133" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, -0.0373098, 0.996508, 0.0746978, -0.559865, -0.0827612, 0.824441, -311.908, -76.6336, 3.15089)
+
+[node name="mossy+rocks134" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, -0.0343094, 0.996937, 0.0702793, -0.560056, -0.0774207, 0.824829, -311.908, -76.4059, -91.7948)
+
+[node name="mossy+rocks135" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, -2.53618e-05, 0.999805, 0.0197502, -0.561106, -0.0163623, 0.827582, -325.482, -76.6336, -72.2212)
+
+[node name="mossy+rocks136" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.0166989, 0.999848, -0.0049253, -0.560858, 0.0134449, 0.827803, -293.278, -76.7195, -104.385)
+
+[node name="mossy+rocks137" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, -0.00497085, 0.999622, 0.0270436, -0.561084, -0.0251738, 0.827376, -313.605, -76.6336, -143.483)
+
+[node name="mossy+rocks138" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, -0.00465748, 0.999636, 0.0265815, -0.561087, -0.0246155, 0.827391, -296.762, -76.6336, -143.483)
+
+[node name="mossy+rocks139" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, -0.0246766, 0.998121, 0.0560895, -0.560563, -0.0602712, 0.825915, -297.537, -76.5396, 59.1732)
+
+[node name="mossy+rocks140" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.002276, 0.999864, 0.0163557, -0.561102, -0.0122615, 0.827656, -324.461, -76.7743, 59.1732)
+
+[node name="mossy+rocks308" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -442.574, -76.6336, 369.477)
+
+[node name="mossy+rocks309" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -400.832, -76.6336, 335.424)
+
+[node name="mossy+rocks310" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -400.832, -76.6336, 312.356)
+
+[node name="mossy+rocks311" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -400.832, -76.6336, 282.697)
+
+[node name="mossy+rocks312" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -426.097, -76.6336, 282.697)
+
+[node name="mossy+rocks313" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -446.968, -76.6336, 258.531)
+
+[node name="mossy+rocks314" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -467.839, -76.6336, 226.675)
+
+[node name="mossy+rocks315" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -467.839, -76.6336, 180.147)
+
+[node name="mossy+rocks316" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -481.412, -76.6336, 151.303)
+
+[node name="mossy+rocks317" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -449.175, -76.6336, 119.065)
+
+[node name="mossy+rocks318" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -469.535, -76.6336, 80.0405)
+
+[node name="mossy+rocks319" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -469.535, -76.6336, 80.0405)
+
+[node name="mossy+rocks320" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -455.126, -76.6336, 282.697)
+
+[node name="mossy+rocks321" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -480.391, -76.6336, 282.697)
+
+[node name="mossy+rocks322" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -350.65, -72.5435, 369.477)
+
+[node name="mossy+rocks323" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -308.908, -68.3487, 335.424)
+
+[node name="mossy+rocks324" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.0413816, 0.998286, -0.0413752, -0.559578, 0.0574631, 0.826783, -308.908, -70.0747, 312.356)
+
+[node name="mossy+rocks325" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -308.908, -72.6372, 282.697)
+
+[node name="mossy+rocks326" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -334.173, -76.6336, 282.697)
+
+[node name="mossy+rocks327" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -355.044, -76.6336, 258.531)
+
+[node name="mossy+rocks328" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -375.915, -76.6336, 226.675)
+
+[node name="mossy+rocks329" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -375.915, -76.6336, 180.147)
+
+[node name="mossy+rocks330" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -389.488, -76.6336, 151.303)
+
+[node name="mossy+rocks331" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -357.251, -76.6336, 119.065)
+
+[node name="mossy+rocks332" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -377.611, -76.6336, 80.0405)
+
+[node name="mossy+rocks333" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -377.611, -76.6336, 80.0405)
+
+[node name="mossy+rocks334" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -363.203, -76.6336, 282.697)
+
+[node name="mossy+rocks335" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -388.468, -76.6336, 282.697)
+
+[node name="mossy+rocks336" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -266.728, -57.1728, 369.477)
+
+[node name="mossy+rocks337" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.0311107, 0.999172, -0.0262031, -0.560243, 0.0391425, 0.827403, -224.986, -52.2893, 335.424)
+
+[node name="mossy+rocks338" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, -0.104954, 0.979107, 0.174163, -0.551203, -0.203041, 0.809289, -224.986, -53.2791, 312.356)
+
+[node name="mossy+rocks339" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.587332, -0.572512, 0.572076, 0.358646, 0.817754, 0.450168, -0.725544, -0.0592258, 0.685622, -224.986, -59.9235, 282.697)
+
+[node name="mossy+rocks340" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -250.251, -65.8297, 282.697)
+
+[node name="mossy+rocks341" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -271.122, -70.4546, 258.531)
+
+[node name="mossy+rocks342" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -291.993, -76.6336, 226.675)
+
+[node name="mossy+rocks343" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -291.993, -76.6336, 180.147)
+
+[node name="mossy+rocks344" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -305.567, -76.6336, 151.303)
+
+[node name="mossy+rocks345" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.0359398, 0.998798, -0.0333358, -0.559954, 0.0477557, 0.827146, -273.329, -76.6336, 119.065)
+
+[node name="mossy+rocks346" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, -0.00130828, 0.999765, 0.0216424, -0.561105, -0.0186482, 0.827535, -293.69, -76.6336, 80.0405)
+
+[node name="mossy+rocks347" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.0174624, 0.999829, -0.00605223, -0.560835, 0.0148061, 0.827796, -293.69, -76.6336, 89.1657)
+
+[node name="mossy+rocks348" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -279.281, -68.852, 282.697)
+
+[node name="mossy+rocks349" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -304.546, -71.8442, 282.697)
+
+[node name="mossy+rocks350" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -310.678, -61.921, 369.477)
+
+[node name="mossy+rocks351" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, -0.160898, 0.95314, 0.256196, -0.537543, -0.302328, 0.787176, -268.936, -61.5977, 335.424)
+
+[node name="mossy+rocks352" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -268.936, -64.9407, 312.356)
+
+[node name="mossy+rocks353" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -268.936, -67.8322, 282.697)
+
+[node name="mossy+rocks354" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -294.201, -70.8463, 282.697)
+
+[node name="mossy+rocks355" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -315.072, -76.6336, 258.531)
+
+[node name="mossy+rocks356" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -335.943, -76.6336, 226.675)
+
+[node name="mossy+rocks357" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -335.943, -76.6336, 180.147)
+
+[node name="mossy+rocks358" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -349.517, -76.6336, 151.303)
+
+[node name="mossy+rocks359" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -317.279, -76.6336, 119.065)
+
+[node name="mossy+rocks360" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -337.64, -76.6336, 80.0405)
+
+[node name="mossy+rocks361" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -337.64, -76.6336, 80.0405)
+
+[node name="mossy+rocks362" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -323.231, -74.9899, 282.697)
+
+[node name="mossy+rocks363" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -348.496, -76.6336, 282.697)
+
+[node name="mossy+rocks364" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -372.544, -75.8217, 352.607)
+
+[node name="mossy+rocks365" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -330.802, -73.5166, 318.554)
+
+[node name="mossy+rocks366" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -330.802, -75.8217, 295.486)
+
+[node name="mossy+rocks367" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -330.802, -75.8217, 265.827)
+
+[node name="mossy+rocks368" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -356.067, -75.8217, 265.827)
+
+[node name="mossy+rocks369" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -376.938, -75.8217, 241.661)
+
+[node name="mossy+rocks370" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -397.809, -75.8217, 209.805)
+
+[node name="mossy+rocks371" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -397.809, -75.8217, 163.277)
+
+[node name="mossy+rocks372" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -411.382, -75.8217, 134.433)
+
+[node name="mossy+rocks373" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -379.145, -75.8217, 102.195)
+
+[node name="mossy+rocks374" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -399.505, -75.8217, 63.1706)
+
+[node name="mossy+rocks375" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -399.505, -75.8217, 63.1706)
+
+[node name="mossy+rocks376" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -385.096, -75.8217, 265.827)
+
+[node name="mossy+rocks377" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -410.361, -75.8217, 265.827)
+
+[node name="mossy+rocks141" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -345.332, -76.6336, 35.0067)
+
+[node name="mossy+rocks142" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -366.203, -76.6336, 3.15089)
+
+[node name="mossy+rocks143" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, -0.0462943, 0.995051, 0.0879257, -0.559193, -0.0987508, 0.823135, -366.203, -76.2571, -43.3771)
+
+[node name="mossy+rocks144" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, -0.0131274, 0.99915, 0.0390692, -0.560953, -0.0397037, 0.826895, -379.777, -76.6336, -72.2212)
+
+[node name="mossy+rocks145" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, -0.0192749, 0.998655, 0.04813, -0.560775, -0.0506525, 0.826417, -347.539, -76.6336, -104.459)
+
+[node name="mossy+rocks146" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.0231191, 0.999629, -0.0144026, -0.56063, 0.0248914, 0.827692, -367.899, -76.6013, -161.072)
+
+[node name="mossy+rocks147" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.00280485, 0.999875, 0.0155757, -0.561099, -0.0113191, 0.827671, -367.359, -76.4551, -143.483)
+
+[node name="mossy+rocks148" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -397.605, -76.6336, 59.1732)
+
+[node name="mossy+rocks149" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -422.87, -76.6336, 59.1732)
+
+[node name="mossy+rocks150" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -443.741, -76.6336, 35.0067)
+
+[node name="mossy+rocks151" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, -0.00645934, 0.999551, 0.0292385, -0.561069, -0.0278256, 0.827301, -464.612, -76.6336, 3.15089)
+
+[node name="mossy+rocks152" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.836504, 0.0616932, 0.544477, 0.0852574, 0.966887, -0.24054, -0.541288, 0.247633, 0.803545, -464.612, -78.3245, -43.8071)
+
+[node name="mossy+rocks153" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.833676, 0.282519, 0.474519, -0.146528, 0.941601, -0.303178, -0.532461, 0.183222, 0.826387, -478.186, -78.2755, -72.2212)
+
+[node name="mossy+rocks154" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -445.948, -76.6336, -104.459)
+
+[node name="mossy+rocks155" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -466.309, -76.6336, -143.483)
+
+[node name="mossy+rocks156" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -466.309, -76.6336, -143.483)
+
+[node name="mossy+rocks157" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -127.152, -76.6336, 156.133)
+
+[node name="mossy+rocks158" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -85.4099, -76.6336, 122.08)
+
+[node name="mossy+rocks159" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -85.4099, -76.6336, 99.0123)
+
+[node name="mossy+rocks160" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -85.4099, -76.6336, 69.3535)
+
+[node name="mossy+rocks161" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -110.675, -76.6336, 69.3535)
+
+[node name="mossy+rocks162" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -131.546, -76.6336, 45.187)
+
+[node name="mossy+rocks163" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -152.417, -76.6336, 13.3312)
+
+[node name="mossy+rocks164" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -152.417, -76.6336, -33.1968)
+
+[node name="mossy+rocks165" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -165.991, -76.6336, -62.0409)
+
+[node name="mossy+rocks166" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -133.753, -76.6336, -94.2785)
+
+[node name="mossy+rocks167" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -154.113, -76.6336, -133.303)
+
+[node name="mossy+rocks168" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -154.113, -76.6336, -133.303)
+
+[node name="mossy+rocks169" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -139.705, -76.6336, 69.3535)
+
+[node name="mossy+rocks170" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -164.97, -76.6336, 69.3535)
+
+[node name="mossy+rocks171" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -185.841, -76.6336, 45.187)
+
+[node name="mossy+rocks172" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -206.712, -76.6336, 13.3312)
+
+[node name="mossy+rocks173" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -206.712, -76.6336, -33.1968)
+
+[node name="mossy+rocks174" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -220.285, -76.6336, -62.0409)
+
+[node name="mossy+rocks175" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -188.048, -76.6336, -94.2785)
+
+[node name="mossy+rocks176" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -208.408, -76.6336, -133.303)
+
+[node name="mossy+rocks177" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -208.408, -76.6336, -133.303)
+
+[node name="mossy+rocks178" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.0317267, 0.999129, -0.0271128, -0.560209, 0.0402411, 0.827374, -238.114, -76.6336, 69.3535)
+
+[node name="mossy+rocks179" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.0129396, 0.999916, 0.000622749, -0.560957, 0.00674364, 0.827817, -263.379, -76.6336, 69.3535)
+
+[node name="mossy+rocks180" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.039389, 0.998484, -0.0384312, -0.559722, 0.0539084, 0.826925, -283.908, -77.422, 45.187)
+
+[node name="mossy+rocks181" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, -0.00623409, 0.999563, 0.0289063, -0.561072, -0.0274243, 0.827313, -305.121, -76.6336, 13.3312)
+
+[node name="mossy+rocks182" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, -0.0440297, 0.995442, 0.0845919, -0.559376, -0.0947209, 0.823484, -305.121, -76.0849, -33.1968)
+
+[node name="mossy+rocks183" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.14781, 0.968791, -0.19899, -0.541288, 0.247633, 0.803545, -318.695, -76.6336, -62.0409)
+
+[node name="mossy+rocks184" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.0256336, 0.999507, -0.018115, -0.560521, 0.029375, 0.827619, -286.457, -76.6336, -94.2785)
+
+[node name="mossy+rocks185" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.00222705, 0.999862, 0.016428, -0.561102, -0.0123488, 0.827655, -297.669, -76.6336, -133.303)
+
+[node name="mossy+rocks186" parent="Rocks" instance=ExtResource("11_4kpch")]
+transform = Transform3D(0.827744, -0.011061, 0.560997, 0.0213088, 0.999704, -0.01173, -0.560702, 0.0216636, 0.827735, -306.818, -76.6336, -122.102)
+
+[node name="Rocks" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 227.803, -77, -391.265)
+
+[node name="Rocks2" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 203.458, -77, -382.57)
+
+[node name="Rocks3" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 203.458, -77, -365.181)
+
+[node name="Rocks4" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 220.847, -77, -365.181)
+
+[node name="Rocks5" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 220.847, -77, -372.136)
+
+[node name="Rocks6" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 220.847, -77, -379.092)
+
+[node name="Rocks7" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 184.329, -77, -379.092)
+
+[node name="Rocks8" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 165.201, -77, -379.092)
+
+[node name="Rocks9" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 140.855, -77, -370.397)
+
+[node name="Rocks10" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 140.855, -77, -351.269)
+
+[node name="Rocks40" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 227.803, -77, -323.446)
+
+[node name="Rocks41" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 203.458, -77, -314.751)
+
+[node name="Rocks42" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 203.458, -77, -297.361)
+
+[node name="Rocks43" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 220.847, -77, -297.361)
+
+[node name="Rocks44" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 220.847, -77, -304.317)
+
+[node name="Rocks45" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 220.847, -77, -311.273)
+
+[node name="Rocks46" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 184.329, -77, -311.273)
+
+[node name="Rocks47" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 165.201, -77, -311.273)
+
+[node name="Rocks48" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 140.855, -77, -302.578)
+
+[node name="Rocks49" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 140.855, -77, -283.45)
+
+[node name="Rocks11" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 158.245, -77, -351.269)
+
+[node name="Rocks12" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 175.634, -77, -361.703)
+
+[node name="Rocks13" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 194.763, -77, -356.486)
+
+[node name="Rocks14" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.966761, 0, -0.255682, 0, 1, 0, 0.255682, 0, 0.966761, 327.697, -77, -380.626)
+
+[node name="Rocks15" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.966761, 0, -0.255682, 0, 1, 0, 0.255682, 0, 0.966761, 301.938, -77, -378.445)
+
+[node name="Rocks16" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.966761, 0, -0.255682, 0, 1, 0, 0.255682, 0, 0.966761, 297.491, -77, -361.634)
+
+[node name="Rocks17" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.966761, 0, -0.255682, 0, 1, 0, 0.255682, 0, 0.966761, 314.303, -77, -357.187)
+
+[node name="Rocks18" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.966761, 0, -0.255682, 0, 1, 0, 0.255682, 0, 0.966761, 316.081, -77, -363.912)
+
+[node name="Rocks19" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.966761, 0, -0.255682, 0, 1, 0, 0.255682, 0, 0.966761, 317.86, -77, -370.637)
+
+[node name="Rocks20" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.966761, 0, -0.255682, 0, 1, 0, 0.255682, 0, 0.966761, 282.556, -77, -379.974)
+
+[node name="Rocks21" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.966761, 0, -0.255682, 0, 1, 0, 0.255682, 0, 0.966761, 264.063, -77, -384.864)
+
+[node name="Rocks22" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.966761, 0, -0.255682, 0, 1, 0, 0.255682, 0, 0.966761, 238.304, -77, -382.683)
+
+[node name="Rocks23" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.966761, 0, -0.255682, 0, 1, 0, 0.255682, 0, 0.966761, 233.413, -77, -364.191)
+
+[node name="Rocks24" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.966761, 0, -0.255682, 0, 1, 0, 0.255682, 0, 0.966761, 250.224, -77, -359.744)
+
+[node name="Rocks25" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.966761, 0, -0.255682, 0, 1, 0, 0.255682, 0, 0.966761, 269.704, -77, -365.385)
+
+[node name="Rocks26" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.966761, 0, -0.255682, 0, 1, 0, 0.255682, 0, 0.966761, 286.863, -77, -355.451)
+
+[node name="Rocks27" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.434178, 0, -0.900827, 0, 1, 0, 0.900827, 0, 0.434178, 397.531, -77, -264.067)
+
+[node name="Rocks28" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.434178, 0, -0.900827, 0, 1, 0, 0.900827, 0, 0.434178, 379.128, -77, -282.223)
+
+[node name="Rocks29" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.434178, 0, -0.900827, 0, 1, 0, 0.900827, 0, 0.434178, 363.463, -77, -274.672)
+
+[node name="Rocks30" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.434178, 0, -0.900827, 0, 1, 0, 0.900827, 0, 0.434178, 371.014, -77, -259.007)
+
+[node name="Rocks31" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.434178, 0, -0.900827, 0, 1, 0, 0.900827, 0, 0.434178, 377.28, -77, -262.027)
+
+[node name="Rocks32" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.434178, 0, -0.900827, 0, 1, 0, 0.900827, 0, 0.434178, 383.546, -77, -265.047)
+
+[node name="Rocks33" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.434178, 0, -0.900827, 0, 1, 0, 0.900827, 0, 0.434178, 367.69, -77, -297.944)
+
+[node name="Rocks34" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.434178, 0, -0.900827, 0, 1, 0, 0.900827, 0, 0.434178, 359.385, -77, -315.175)
+
+[node name="Rocks35" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.434178, 0, -0.900827, 0, 1, 0, 0.900827, 0, 0.434178, 340.982, -77, -333.331)
+
+[node name="Rocks36" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.434178, 0, -0.900827, 0, 1, 0, 0.900827, 0, 0.434178, 323.751, -77, -325.026)
+
+[node name="Rocks37" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.434178, 0, -0.900827, 0, 1, 0, 0.900827, 0, 0.434178, 331.301, -77, -309.361)
+
+[node name="Rocks50" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.434178, 0, -0.900827, 0, 1, 0, 0.900827, 0, 0.434178, 307.538, -77, -309.361)
+
+[node name="Rocks51" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.434178, 0, -0.900827, 0, 1, 0, 0.900827, 0, 0.434178, 307.538, -77, -296.429)
+
+[node name="Rocks52" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.434178, 0, -0.900827, 0, 1, 0, 0.900827, 0, 0.434178, 307.538, -77, -282.001)
+
+[node name="Rocks53" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.434178, 0, -0.900827, 0, 1, 0, 0.900827, 0, 0.434178, 307.538, -77, -243.475)
+
+[node name="Rocks54" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.434178, 0, -0.900827, 0, 1, 0, 0.900827, 0, 0.434178, 254.534, -77, -243.475)
+
+[node name="Rocks55" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.434178, 0, -0.900827, 0, 1, 0, 0.900827, 0, 0.434178, 221.397, -77, -243.475)
+
+[node name="Rocks56" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.434178, 0, -0.900827, 0, 1, 0, 0.900827, 0, 0.434178, 238.159, -77, -243.475)
+
+[node name="Rocks57" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.434178, 0, -0.900827, 0, 1, 0, 0.900827, 0, 0.434178, 238.159, -77, -271.904)
+
+[node name="Rocks58" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.434178, 0, -0.900827, 0, 1, 0, 0.900827, 0, 0.434178, 202.906, -77, -271.904)
+
+[node name="Rocks59" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.434178, 0, -0.900827, 0, 1, 0, 0.900827, 0, 0.434178, 202.906, -77, -246.439)
+
+[node name="Rocks60" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.434178, 0, -0.900827, 0, 1, 0, 0.900827, 0, 0.434178, 202.906, -77, -222.85)
+
+[node name="Rocks61" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.434178, 0, -0.900827, 0, 1, 0, 0.900827, 0, 0.434178, 202.906, -77, -203.016)
+
+[node name="Rocks38" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.434178, 0, -0.900827, 0, 1, 0, 0.900827, 0, 0.434178, 348.25, -77, -298.226)
+
+[node name="Rocks39" parent="Rocks" instance=ExtResource("11_frkhe")]
+transform = Transform3D(0.434178, 0, -0.900827, 0, 1, 0, 0.900827, 0, 0.434178, 351.856, -77, -278.73)
+
+[node name="crashed_ship" parent="." instance=ExtResource("11_grg3l")]
+transform = Transform3D(1.75757, 0.95444, 0, -0.95444, 1.75757, 0, 0, 0, 2, 55.1384, -81.3417, 0)
+
+[node name="chest" parent="." instance=ExtResource("13_h1m7h")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 53, -77, 6.82567)
+
+[node name="CoinSpawner" type="Node3D" parent="." groups=["coins"]]
+script = ExtResource("15_h1m7h")
+coin_scene = ExtResource("7_h1m7h")
+number_of_coins = 300
+min_x = -400.0
+max_x = 400.0
+max_y = -50.0
+min_z = -450.0
+max_z = 250.0
+
+[node name="MarineLife" type="Node3D" parent="."]
+script = ExtResource("16_mlife")

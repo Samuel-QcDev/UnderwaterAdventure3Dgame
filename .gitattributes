@@ -1,0 +1,19 @@
+# Text files: let Git handle them as text (viewable & diffable on GitHub).
+* text=auto eol=lf
+
+# --- Binary assets tracked with Git LFS (large, non-diffable) ---
+*.glb    filter=lfs diff=lfs merge=lfs -text
+*.gltf   filter=lfs diff=lfs merge=lfs -text
+*.fbx    filter=lfs diff=lfs merge=lfs -text
+*.blend  filter=lfs diff=lfs merge=lfs -text
+*.blend1 filter=lfs diff=lfs merge=lfs -text
+*.jpg    filter=lfs diff=lfs merge=lfs -text
+*.jpeg   filter=lfs diff=lfs merge=lfs -text
+*.png    filter=lfs diff=lfs merge=lfs -text
+*.webp   filter=lfs diff=lfs merge=lfs -text
+*.wav    filter=lfs diff=lfs merge=lfs -text
+*.ogg    filter=lfs diff=lfs merge=lfs -text
+*.mp3    filter=lfs diff=lfs merge=lfs -text
+
+# --- Source / text files: NOT LFS, so they stay readable on GitHub ---
+# .gd .tscn .godot .cfg .import .uid .svg .md .editorconfig are plain text.

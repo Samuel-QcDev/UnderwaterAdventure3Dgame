@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://bq1vt4b157dvp"]
+
+[ext_resource type="PackedScene" uid="uid://b1vyku032gvcn" path="res://3D_Models/Pirate/Gold+Coin.glb" id="1_w5hqo"]
+[ext_resource type="AudioStream" uid="uid://cbp6yf2rp3hp2" path="res://Music/smb_coin.wav" id="2_jnh2m"]
+
+[node name="Gold+Coin" instance=ExtResource("1_w5hqo")]
+
+[node name="Plane_001" parent="." index="0"]
+visible = false
+
+[node name="Plane" parent="." index="1"]
+visible = false
+
+[node name="Cylinder" parent="." index="2"]
+transform = Transform3D(-1.75495e-07, 0.0934457, 0, -1.07718, -1.52242e-08, 0, 0, 0, 1.07718, 0, 1.29357, 0)
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.21102, 0)
+stream = ExtResource("2_jnh2m")
+volume_db = 3.0
+max_distance = 50.0
+area_mask = 55

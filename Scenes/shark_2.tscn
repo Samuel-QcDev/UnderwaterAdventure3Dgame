@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://cujq71nko4yfl"]
+
+[ext_resource type="PackedScene" uid="uid://d2lsi88eqoved" path="res://3D_Models/FishModels/Shark2.glb" id="1_fp5io"]
+
+[node name="Shark2" instance=ExtResource("1_fp5io")]
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/0/rotation = Quaternion(-0.590265, 0.00172095, -0.0152941, 0.807063)
+bones/3/rotation = Quaternion(0.270505, 0.628634, -0.628066, 0.370378)
+bones/4/rotation = Quaternion(-0.164433, -0.121899, 0.0557116, 0.97724)
+bones/5/rotation = Quaternion(-0.0907674, -0.00775452, -0.0572149, 0.994197)
+bones/6/rotation = Quaternion(-0.0494376, 0.000976654, -0.154068, 0.986822)
+bones/7/rotation = Quaternion(-0.0181534, 0.0297808, -0.390444, 0.919966)
+bones/8/rotation = Quaternion(-0.383666, -0.00679164, 0.518209, 0.764339)
+bones/9/rotation = Quaternion(0.115117, 0.0246821, -0.123467, 0.98534)
+
+[node name="Empty" parent="." index="1"]
+transform = Transform3D(0, 1, 0, 0, 0, -1, -1, 0, 0, -2.97073, 0, 0)
+visible = false
+
+[node name="Empty_001" parent="." index="2"]
+visible = false

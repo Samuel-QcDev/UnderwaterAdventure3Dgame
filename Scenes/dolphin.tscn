@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://b4v8jmlo8lqf2"]
+
+[ext_resource type="PackedScene" uid="uid://ce7cardx2nvk0" path="res://Art/Dolphin.glb" id="1_jpi38"]
+
+[node name="Dolphin" instance=ExtResource("1_jpi38")]
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/1/rotation = Quaternion(-0.727368, -5.87929e-18, 5.98254e-18, 0.686247)
+bones/2/rotation = Quaternion(-0.0279297, -0.00018034, 0.00164289, 0.999609)
+bones/3/rotation = Quaternion(0.0132041, 0.000204517, -0.00164006, 0.999912)
+bones/4/rotation = Quaternion(-0.0226673, -7.19739e-11, 5.73106e-09, 0.999743)
+bones/5/rotation = Quaternion(-0.00999589, 2.24686e-10, -6.05355e-09, 0.99995)
+bones/6/rotation = Quaternion(-0.301683, -0.0616187, -0.352877, 0.883554)
+bones/8/rotation = Quaternion(0.0174855, 0.0177818, 0.104375, 0.994225)
+bones/9/rotation = Quaternion(-0.271765, 0.0714734, 0.418984, 0.863416)
+bones/11/rotation = Quaternion(-0.0674962, -0.0136836, -0.182784, 0.980738)
+bones/12/rotation = Quaternion(0.719048, 1.25901e-06, 1.30208e-06, 0.694961)
+
+[node name="AnimationPlayer" parent="." index="1"]
+autoplay = "Swim"

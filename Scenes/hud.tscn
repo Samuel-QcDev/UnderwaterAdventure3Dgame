@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=3 uid="uid://bi06wds7s7tmy"]
+
+[ext_resource type="Script" uid="uid://dv4kajv54xxwi" path="res://Scripts/hud.gd" id="1_sprlj"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_sprlj")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TimeLabel" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -77.0
+offset_top = 10.0
+offset_right = -29.0
+offset_bottom = 33.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 1, 1)
+theme_override_font_sizes/font_size = 50
+text = "test"
+
+[node name="CoinLabel" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -216.0
+offset_top = 75.0
+offset_right = -10.0
+offset_bottom = 144.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 1, 1)
+theme_override_font_sizes/font_size = 50
+text = "test coin"

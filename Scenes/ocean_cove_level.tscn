@@ -1,0 +1,121 @@
+[gd_scene load_steps=15 format=3 uid="uid://jqkdfte4l2xm"]
+
+[ext_resource type="PackedScene" uid="uid://bjfjotpgyjunt" path="res://Scenes/cave__mesh_instance_3d.tscn" id="1_34oqc"]
+[ext_resource type="PackedScene" uid="uid://diaw3blp0mopv" path="res://Scenes/dolphin_player.tscn" id="1_t05ga"]
+[ext_resource type="PackedScene" uid="uid://ct2ec7dvyvk65" path="res://Scenes/music.tscn" id="2_okoo3"]
+[ext_resource type="PackedScene" uid="uid://byvg2kt721axj" path="res://Scenes/ocean_floor.tscn" id="3_fnovl"]
+[ext_resource type="PackedScene" uid="uid://fey18i58ha2x" path="res://Scenes/boundaries.tscn" id="4_fnovl"]
+[ext_resource type="PackedScene" uid="uid://c46pwy67rbo38" path="res://3D_Models/Ocean/underwater+plant.blend" id="6_15822"]
+[ext_resource type="PackedScene" uid="uid://crj82yek84o7a" path="res://Scenes/collectible.tscn" id="7_kd8s0"]
+[ext_resource type="PackedScene" uid="uid://dvg1gc5sbuk77" path="res://Scenes/shark_enemy.tscn" id="8_34oqc"]
+[ext_resource type="PackedScene" uid="uid://ci7pflyalrr0q" path="res://Scenes/GameManager.tscn" id="9_fnovl"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_t05ga"]
+size = Vector2(1000, 1000)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t05ga"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_color = Color(0.25098, 0.501961, 1, 0.00392157)
+metallic_specular = 1.0
+roughness = 0.1
+refraction_enabled = true
+refraction_scale = 0.25
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ep6c4"]
+
+[sub_resource type="Sky" id="Sky_p5ghu"]
+sky_material = SubResource("ProceduralSkyMaterial_ep6c4")
+
+[sub_resource type="Environment" id="Environment_p5ghu"]
+background_mode = 2
+sky = SubResource("Sky_p5ghu")
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.352941, 0.615686, 0.831373, 1)
+fog_density = 1.0
+
+[node name="OceanCove" type="Node3D"]
+
+[node name="Cliffs" type="Node3D" parent="."]
+
+[node name="Cave -MeshInstance3D" parent="Cliffs" instance=ExtResource("1_34oqc")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 24.924, -55.9143, 158.961)
+
+[node name="SunLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 371, 0)
+light_color = Color(1, 0.976471, 0.882353, 1)
+light_energy = 2.0
+shadow_enabled = true
+shadow_bias = 0.02
+shadow_normal_bias = 1.0
+
+[node name="WaterSurface" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_t05ga")
+surface_material_override/0 = SubResource("StandardMaterial3D_t05ga")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="WaterSurface"]
+environment = SubResource("Environment_p5ghu")
+
+[node name="Boundaries" parent="." instance=ExtResource("4_fnovl")]
+
+[node name="OceanFloor" parent="." instance=ExtResource("3_fnovl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -77, 0)
+
+[node name="Player" parent="." instance=ExtResource("1_t05ga")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59.1588, -70.2412, 142.955)
+
+[node name="CameraPivot" type="Node3D" parent="Player"]
+transform = Transform3D(-0.996195, 0, -0.0871556, 0, 1, 0, 0.0871556, 0, -0.996195, 0, 3.5, 0)
+
+[node name="SpringArm3D" type="SpringArm3D" parent="Player/CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 9)
+spring_length = 10.0
+
+[node name="Camera3D" type="Camera3D" parent="Player/CameraPivot/SpringArm3D"]
+current = true
+
+[node name="Music" parent="." instance=ExtResource("2_okoo3")]
+volume_db = -3.0
+
+[node name="Plants" type="Node3D" parent="."]
+
+[node name="underwater+plant1" parent="Plants" instance=ExtResource("6_15822")]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, -425, -77.0374, 250)
+
+[node name="underwater+plant2" parent="Plants" instance=ExtResource("6_15822")]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 425, -77.0949, 250)
+
+[node name="underwater+plant3" parent="Plants" instance=ExtResource("6_15822")]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 412.443, -77.1535, -450)
+
+[node name="underwater+plant4" parent="Plants" instance=ExtResource("6_15822")]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, -425, -77.0758, -450)
+
+[node name="underwater+plant5" parent="Plants" instance=ExtResource("6_15822")]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, -77, -450)
+
+[node name="underwater+plant6" parent="Plants" instance=ExtResource("6_15822")]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, -49.3775, 250)
+
+[node name="Collectibles" type="Node3D" parent="."]
+
+[node name="Coin 1" parent="Collectibles" instance=ExtResource("7_kd8s0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59, -70, 150.543)
+
+[node name="Coin 2" parent="Collectibles" instance=ExtResource("7_kd8s0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59, -70, 156.789)
+
+[node name="Enemies" type="Node3D" parent="."]
+
+[node name="SharkEnemy 1" parent="Enemies" instance=ExtResource("8_34oqc")]
+transform = Transform3D(0.920464, 0, 0.390828, 0, 1, 0, -0.390828, 0, 0.920464, 60, -50.0565, -45.5371)
+target_path = NodePath("../../Player")
+
+[node name="SharkEnemy 2" parent="Enemies" instance=ExtResource("8_34oqc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, -50, -35)
+target_path = NodePath("../../Player")
+
+[node name="GameManager" parent="." instance=ExtResource("9_fnovl")]
+script = null

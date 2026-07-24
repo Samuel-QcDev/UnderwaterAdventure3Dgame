@@ -1,0 +1,48 @@
+[gd_scene load_steps=6 format=3 uid="uid://djnmhb40xb2mh"]
+
+[ext_resource type="PackedScene" uid="uid://dat6ctlb1m8qb" path="res://3D_Models/Environment/UnderwaterCove.glb" id="1_gi2jx"]
+[ext_resource type="PackedScene" uid="uid://diaw3blp0mopv" path="res://Scenes/dolphin_player.tscn" id="2_55u40"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_55u40"]
+
+[sub_resource type="Sky" id="Sky_4ida2"]
+sky_material = SubResource("ProceduralSkyMaterial_55u40")
+
+[sub_resource type="Environment" id="Environment_55u40"]
+background_mode = 2
+background_energy_multiplier = 2.0
+sky = SubResource("Sky_4ida2")
+ambient_light_color = Color(0.465357, 0.784378, 0.968318, 1)
+ambient_light_energy = 3.0
+tonemap_mode = 3
+tonemap_exposure = 0.7
+
+[node name="UnderWaterCoveScene" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 0)
+
+[node name="UnderwaterCove" parent="." instance=ExtResource("1_gi2jx")]
+transform = Transform3D(0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, 0.258819, -1, 0, -3)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_55u40")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 5, 0)
+layers = 3
+light_energy = 3.485
+shadow_enabled = true
+shadow_caster_mask = 4294967294
+
+[node name="Player" parent="." instance=ExtResource("2_55u40")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -8)
+
+[node name="CameraPivot" type="Marker3D" parent="Player"]
+transform = Transform3D(-0.0918804, -0.494378, 0.864378, 0.303729, 0.81277, 0.497146, -0.948318, 0.308215, 0.0754792, -8, 5, 1)
+
+[node name="Camera3D" type="Camera3D" parent="Player/CameraPivot"]
+transform = Transform3D(-0.377351, 0.112901, 0.919162, 0.55168, 0.824605, 0.125199, -0.743811, 0.554328, -0.37345, 2.60132, -2.23983, -3.25983)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]

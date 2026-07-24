@@ -1,0 +1,9 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+# Exported builds must not live in the repo (moved to ../build)
+*.exe
+*.zip
+*.pck
+/Application/
