@@ -242,9 +242,12 @@ func _spawn_octopus(index: int) -> Dictionary:
 	return {
 		"node": oct,
 		"phase": _rng.randf_range(0.0, TAU),
-		"bob_speed": _rng.randf_range(0.45, 0.85),
+		"bob_speed": _rng.randf_range(0.35, 0.7),
 		"base_y": rest_y,
-		"spin": _rng.randf_range(-0.15, 0.15),
+		"spin": _rng.randf_range(-0.2, 0.2),
+		"base_scale": Vector3.ONE * scale_factor,
+		"jet_speed": _rng.randf_range(1.1, 1.9),
+		"crawl": _rng.randf_range(0.6, 1.8),
 	}
 
 
@@ -265,10 +268,32 @@ func _lowest_point(n: Node3D) -> float:
 
 
 func _update_octopus(oct: Dictionary, delta: float) -> void:
+	# The Poly-Pizza octopus is a static mesh (no rig), so it is animated
+	# procedurally: a jet-propulsion pulse that squashes the mantle and thrusts
+	# it upward, plus a slow crawl so it doesn't look like a frozen prop.
 	var node: Node3D = oct["node"]
-	# Breathe up and down just off the sea bed, turning slowly on the spot.
-	node.position.y = oct["base_y"] + sin(_time * oct["bob_speed"] + oct["phase"]) * 0.9
+	var phase: float = oct["phase"]
+	var t: float = _time * float(oct["jet_speed"]) + phase
+
+	# Contraction spikes (0..1): sharp squeeze, slow relax.
+	var pulse: float = pow(maxf(sin(t), 0.0), 1.6)
+
+	# Squash vertically / bulge horizontally on the contraction.
+	var bs: Vector3 = oct["base_scale"]
+	node.scale = Vector3(
+		bs.x * (1.0 + 0.10 * pulse),
+		bs.y * (1.0 - 0.18 * pulse),
+		bs.z * (1.0 + 0.10 * pulse))
+
+	# Thrust up on each pulse, sink back between pulses, with a soft idle bob.
+	node.position.y = oct["base_y"] + pulse * 3.0 + sin(_time * oct["bob_speed"] + phase) * 0.4
+
+	# Turn slowly and crawl forward a little, kept inside the play area.
 	node.rotation.y += oct["spin"] * delta
+	var fwd := -node.global_transform.basis.z
+	var step: Vector3 = fwd * (oct["crawl"] * delta)
+	node.position.x = clampf(node.position.x + step.x, min_x, max_x)
+	node.position.z = clampf(node.position.z + step.z, min_z, max_z)
 
 
 # --- whale ------------------------------------------------------------------

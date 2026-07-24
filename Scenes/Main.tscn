@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://de2hn3w8b5awu" path="res://Scenes/chest.tscn" id="13_h1m7h"]
 [ext_resource type="Script" uid="uid://kht5pbp4bw1d" path="res://Scenes/CoinSpawner.gd" id="15_h1m7h"]
 [ext_resource type="Script" uid="uid://dbqs3pldmpkp3" path="res://Scripts/marine_life.gd" id="16_mlife"]
+[ext_resource type="Script" uid="uid://8ttofhp410wt" path="res://Scripts/level_layout.gd" id="17_level"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_t05ga"]
 size = Vector2(1000, 1000)
@@ -41,9 +42,10 @@ sky = SubResource("Sky_p5ghu")
 fog_enabled = true
 fog_mode = 1
 fog_light_color = Color(0.352941, 0.615686, 0.831373, 1)
-fog_density = 0.93
+fog_density = 0.35
+fog_depth_begin = 15.0
 fog_depth_curve = 1.03527
-fog_depth_end = 60.0
+fog_depth_end = 300.0
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_bmxlf")
@@ -298,24 +300,24 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.226, -74.3063, 6.44436)
 [node name="Enemies" type="Node3D" parent="." groups=["sharks"]]
 
 [node name="SharkEnemy" parent="Enemies" groups=["sharks"] instance=ExtResource("8_erwvk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -409.091, -67, -343.494)
-speed = 20.0
-chase_radius = 100.0
-patrol_radius = 1000.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -180, -64, -110)
+speed = 18.0
+chase_radius = 45.0
+patrol_radius = 70.0
 target_path = NodePath("../../Player")
 
 [node name="SharkEnemy2" parent="Enemies" groups=["sharks"] instance=ExtResource("8_erwvk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, -67, 0)
-speed = 25.0
-chase_radius = 50.0
-patrol_radius = 1000.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 150, -62, -230)
+speed = 22.0
+chase_radius = 48.0
+patrol_radius = 70.0
 target_path = NodePath("../../Player")
 
 [node name="SharkEnemy3" parent="Enemies" groups=["sharks"] instance=ExtResource("8_erwvk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 358.038, -67, -54.1623)
-speed = 30.0
-chase_radius = 100.0
-patrol_radius = 1000.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 250, -64, -420)
+speed = 26.0
+chase_radius = 55.0
+patrol_radius = 80.0
 target_path = NodePath("../../Player")
 
 [node name="GameManagerRoot" parent="." instance=ExtResource("9_2w5on")]
@@ -1645,7 +1647,7 @@ transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 53, -77, 6.82567)
 [node name="CoinSpawner" type="Node3D" parent="." groups=["coins"]]
 script = ExtResource("15_h1m7h")
 coin_scene = ExtResource("7_h1m7h")
-number_of_coins = 300
+number_of_coins = 0
 min_x = -400.0
 max_x = 400.0
 max_y = -50.0
@@ -1654,3 +1656,6 @@ max_z = 250.0
 
 [node name="MarineLife" type="Node3D" parent="."]
 script = ExtResource("16_mlife")
+
+[node name="LevelLayout" type="Node3D" parent="."]
+script = ExtResource("17_level")
