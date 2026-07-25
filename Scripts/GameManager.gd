@@ -2,7 +2,7 @@ extends Node
 
 # Exported game parameters
 @export var total_time: int = 180  # seconds
-@export var coins_to_win: int = 15
+@export var keys_needed: int = 3   # find this many keys, then deliver to the galleon
 
 @onready var winMusic = AudioManager.get_node("Win")
 
@@ -140,7 +140,7 @@ func _start_game():
 
 	var player = get_node_or_null("/root/Main/Player")
 	if player:
-		player.global_transform.origin = Vector3(60, -70, 141)
+		player.global_transform.origin = Vector3(0, -58, 110)
 		player.reset_rotation()
 		player.scale = Vector3.ONE
 		player.velocity = Vector3.ZERO
@@ -148,6 +148,10 @@ func _start_game():
 
 	reset_sharks()
 	reset_coins()
+
+	if hud:
+		hud.call("update_keys", 0, keys_needed)
+		hud.call("show_objective", "Trouve les 3 clés cachées dans le récif, puis ramène-les au galion.")
 
 
 func _on_timer_timeout():
@@ -168,20 +172,39 @@ func _on_timer_timeout():
 		print("Game over: time ran out!")
 
 func add_coin():
+	# Coins are now an optional bonus (gold), not the win condition.
 	if game_over:
 		return
-	#print("Before add: PlayerState.coin_count =", PlayerState.coin_count)
 	PlayerState.coin_count += 1
-	#print("After add: PlayerState.coin_count =", PlayerState.coin_count)
 	_update_hud()
-	if PlayerState.coin_count >= coins_to_win:
-		win()  # Change to emit signal win
+
+func collect_key():
+	if game_over:
+		return
+	PlayerState.keys_collected += 1
+	_update_hud()
+	if PlayerState.keys_collected >= keys_needed:
+		if hud:
+			hud.call("show_objective", "Toutes les clés ! Retourne au galion pour ouvrir le trésor.")
+	else:
+		if hud:
+			hud.call("show_objective", "Clé trouvée ! Il en reste %d." % (keys_needed - PlayerState.keys_collected))
+
+func deliver_treasure():
+	# Called when the player reaches the galleon chest.
+	if game_over:
+		return
+	if PlayerState.keys_collected >= keys_needed:
+		win()
+	elif hud:
+		hud.call("show_objective", "Le coffre est verrouillé - il te manque %d clé(s)." % (keys_needed - PlayerState.keys_collected))
 
 func _update_hud():
 	# Call HUD functions to update labels, assuming HUD scene has these methods
 	if hud:
 		hud.call("update_time", time_left)
-		hud.call("update_coin_count", PlayerState.coin_count)
+		hud.call("update_keys", PlayerState.keys_collected, keys_needed)
+		hud.call("update_gold", PlayerState.coin_count)
 
 func reset_coins():
 	var coins = get_tree().get_nodes_in_group("coins")

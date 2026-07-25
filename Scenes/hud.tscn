@@ -16,28 +16,86 @@ mouse_filter = 2
 
 [node name="TimeLabel" type="Label" parent="Control"]
 layout_mode = 1
-anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -77.0
-offset_top = 10.0
-offset_right = -29.0
-offset_bottom = 33.0
+offset_left = -320.0
+offset_top = 12.0
+offset_right = -20.0
+offset_bottom = 62.0
 grow_horizontal = 0
-theme_override_colors/font_color = Color(0, 0, 1, 1)
-theme_override_font_sizes/font_size = 50
-text = "test"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0.13, 0.28, 0.85)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 44
+text = "Temps : 180"
+horizontal_alignment = 2
 
-[node name="CoinLabel" type="Label" parent="Control"]
+[node name="KeysLabel" type="Label" parent="Control"]
 layout_mode = 1
-anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -216.0
-offset_top = 75.0
-offset_right = -10.0
-offset_bottom = 144.0
+offset_left = -320.0
+offset_top = 64.0
+offset_right = -20.0
+offset_bottom = 114.0
 grow_horizontal = 0
-theme_override_colors/font_color = Color(0, 0, 1, 1)
-theme_override_font_sizes/font_size = 50
-text = "test coin"
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_colors/font_outline_color = Color(0.25, 0.15, 0, 0.85)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 44
+text = "Clés : 0 / 3"
+horizontal_alignment = 2
+
+[node name="GoldLabel" type="Label" parent="Control"]
+layout_mode = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -320.0
+offset_top = 118.0
+offset_right = -20.0
+offset_bottom = 154.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(1, 1, 1, 0.85)
+theme_override_colors/font_outline_color = Color(0, 0.13, 0.28, 0.85)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 30
+text = "Or : 0"
+horizontal_alignment = 2
+
+[node name="ObjectiveLabel" type="Label" parent="Control"]
+layout_mode = 1
+anchor_right = 1.0
+offset_left = 40.0
+offset_top = 18.0
+offset_right = -40.0
+offset_bottom = 70.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0.13, 0.28, 0.9)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 34
+text = "Trouve les 3 clés cachées dans le récif, puis ramène-les au galion."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="WinLabel" type="Label" parent="Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -500.0
+offset_top = -120.0
+offset_right = 500.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.35, 1)
+theme_override_colors/font_outline_color = Color(0.2, 0.1, 0, 0.9)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 90
+text = "TRÉSOR OUVERT !"
+horizontal_alignment = 1
+vertical_alignment = 1

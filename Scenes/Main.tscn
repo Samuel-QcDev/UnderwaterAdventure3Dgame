@@ -76,7 +76,7 @@ environment = SubResource("Environment_p5ghu")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -77, 0)
 
 [node name="Player" parent="." groups=["Player"] instance=ExtResource("4_grg3l")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, -70, 136.074)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -58, 110)
 
 [node name="CameraPivot" type="Node3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
@@ -300,24 +300,17 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.226, -74.3063, 6.44436)
 [node name="Enemies" type="Node3D" parent="." groups=["sharks"]]
 
 [node name="SharkEnemy" parent="Enemies" groups=["sharks"] instance=ExtResource("8_erwvk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -180, -64, -110)
-speed = 18.0
-chase_radius = 45.0
-patrol_radius = 70.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -62, -120)
+speed = 20.0
+chase_radius = 40.0
+patrol_radius = 42.0
 target_path = NodePath("../../Player")
 
 [node name="SharkEnemy2" parent="Enemies" groups=["sharks"] instance=ExtResource("8_erwvk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 150, -62, -230)
-speed = 22.0
-chase_radius = 48.0
-patrol_radius = 70.0
-target_path = NodePath("../../Player")
-
-[node name="SharkEnemy3" parent="Enemies" groups=["sharks"] instance=ExtResource("8_erwvk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 250, -64, -420)
-speed = 26.0
-chase_radius = 55.0
-patrol_radius = 80.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 115, -62, -40)
+speed = 18.0
+chase_radius = 38.0
+patrol_radius = 40.0
 target_path = NodePath("../../Player")
 
 [node name="GameManagerRoot" parent="." instance=ExtResource("9_2w5on")]

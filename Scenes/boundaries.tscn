@@ -20,25 +20,25 @@ size = Vector3(1000, 1, 1000)
 [node name="NorthWall" type="StaticBody3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NorthWall"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 400, -500)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 400, -145)
 shape = SubResource("BoxShape3D_ep6c4")
 
 [node name="SouthWall" type="StaticBody3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SouthWall"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 400, 300)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 400, 165)
 shape = SubResource("BoxShape3D_p5ghu")
 
 [node name="EastWall" type="StaticBody3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="EastWall"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 450, 400, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 145, 400, 0)
 shape = SubResource("BoxShape3D_r0ksb")
 
 [node name="WestWall" type="StaticBody3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="WestWall"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -450, 400, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -145, 400, 0)
 shape = SubResource("BoxShape3D_qfhc2")
 
 [node name="SkyBoundary" type="StaticBody3D" parent="."]
